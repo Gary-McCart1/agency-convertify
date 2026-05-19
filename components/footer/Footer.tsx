@@ -5,8 +5,11 @@
 import { ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCalendly } from "../calendly/CalendlyProvider";
+
 
 export default function Footer() {
+  const {open} = useCalendly();
   return (
     <footer
       id="contact"
@@ -60,8 +63,8 @@ export default function Footer() {
               <a href="#about" className="hover:text-blue-600 transition">
                 About
               </a>
-              <a href="#contact" className="hover:text-blue-600 transition">
-                Contact
+              <a onClick={open} className="hover:text-blue-600 transition">
+                Book A Call
               </a>
             </div>
           </div>
