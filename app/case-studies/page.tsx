@@ -1,11 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import {
   TrendingUp,
   Users,
   MousePointerClick,
   ArrowUpRight,
+  ArrowLeft,
 } from "lucide-react";
 
 const caseStudies = [
@@ -65,6 +67,8 @@ export default function CaseStudiesPage() {
         px-6 py-32
       "
     >
+      {/* ================= BACK BUTTON ================= */}
+
       {/* Background blobs */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-200/20 blur-3xl" />
@@ -79,16 +83,34 @@ export default function CaseStudiesPage() {
           transition={{ duration: 0.6 }}
           className="max-w-3xl"
         >
-          <div
-            className="
-              inline-flex items-center gap-2
-              rounded-full border border-blue-100
-              bg-white/70 px-4 py-2
-              text-sm font-medium text-blue-600
-              shadow-sm backdrop-blur-xl
-            "
-          >
-            Real Work & Results
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="
+      z-50
+      inline-flex items-center justify-center
+      rounded-full border border-blue-100
+      bg-white/70 p-3
+      text-zinc-700
+      shadow-sm backdrop-blur-xl
+      transition-all duration-300
+      hover:scale-105 hover:bg-white/90 hover:shadow-md
+    "
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+
+            <div
+              className="
+      inline-flex items-center gap-2
+      rounded-full border border-blue-100
+      bg-white/70 px-4 py-2
+      text-sm font-medium text-blue-600
+      shadow-sm backdrop-blur-xl
+    "
+            >
+              Real Work & Results
+            </div>
           </div>
 
           <h1 className="mt-6 text-5xl font-bold tracking-tight text-black md:text-6xl">
@@ -136,7 +158,6 @@ export default function CaseStudiesPage() {
                 />
 
                 <div className="relative">
-                  {/* TOP */}
                   <div className="flex items-start justify-between">
                     <div
                       className={`
@@ -151,7 +172,6 @@ export default function CaseStudiesPage() {
                     <ArrowUpRight className="h-5 w-5 text-zinc-300 transition group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-black" />
                   </div>
 
-                  {/* CONTENT */}
                   <p className="mt-6 text-sm uppercase tracking-[0.15em] text-zinc-400">
                     {study.type}
                   </p>
@@ -172,20 +192,15 @@ export default function CaseStudiesPage() {
                     {study.description}
                   </p>
 
-                  {/* Highlights */}
                   <div className="mt-6 space-y-3">
                     {study.highlights.map((h, i) => (
-                      <div
-                        key={i}
-                        className="flex gap-2 text-sm text-zinc-600"
-                      >
+                      <div key={i} className="flex gap-2 text-sm text-zinc-600">
                         <span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" />
                         {h}
                       </div>
                     ))}
                   </div>
 
-                  {/* FOOTER */}
                   <div className="mt-8 border-t border-black/5 pt-5 text-sm text-zinc-500">
                     Live project experience
                   </div>

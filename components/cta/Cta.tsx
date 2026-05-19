@@ -7,8 +7,10 @@ import { ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useCalendly } from "../calendly/CalendlyProvider";
 
 export default function CTA() {
+  const { open } = useCalendly();
   return (
     <section className="relative overflow-hidden px-6 py-32">
       {/* ================= BACKGROUND ================= */}
@@ -119,6 +121,7 @@ export default function CTA() {
               className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row"
             >
               <Button
+                onClick={open}
                 size="lg"
                 className="
                   group h-16 rounded-full
