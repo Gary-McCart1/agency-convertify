@@ -12,7 +12,7 @@ import { useCalendly } from "../calendly/CalendlyProvider";
 export default function CTA() {
   const { open } = useCalendly();
   return (
-    <section className="relative overflow-hidden px-6 py-32">
+    <section className="relative overflow-hidden px-6 py-32" id="contact">
       {/* ================= BACKGROUND ================= */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         {/* Main glow */}
