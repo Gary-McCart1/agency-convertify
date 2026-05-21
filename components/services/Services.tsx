@@ -7,9 +7,9 @@ import {
   ArrowUpRight,
   BarChart3,
   Globe,
+  Layers,
   LayoutDashboard,
-  Megaphone,
-  Sparkles,
+  Megaphone
 } from "lucide-react";
 
 const services = [
@@ -73,8 +73,8 @@ export default function Services() {
         >
           {/* Badge */}
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm">
-            <Sparkles className="h-4 w-4" />
-            Growth Services
+          <Layers className="h-4 w-4" />
+            Systems That Scale
           </div>
 
           {/* Heading */}

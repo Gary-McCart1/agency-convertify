@@ -41,12 +41,12 @@ export default function TrustedBy() {
           <div
             key={project.name}
             className="
-              group flex items-center justify-center
-              opacity-60 grayscale
-              transition-all duration-300
-              hover:opacity-100 hover:grayscale-0
-              hover:scale-105
-            "
+  h-10 w-auto object-contain md:h-20
+  grayscale opacity-60
+  transition-all duration-300
+  hover:grayscale-0 hover:opacity-100
+  hover:scale-105
+"
           >
             <Image
               src={project.src}

@@ -78,7 +78,7 @@ export default function Navbar() {
               hover:scale-[1.03]
             "
           >
-            Book a Call
+            Claim Free Growth Audit
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Button>
         </nav>
@@ -140,7 +140,7 @@ export default function Navbar() {
                   text-base font-semibold text-white
                 "
               >
-                Book a Free Call
+                Claim Free Growth Audit
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </SheetContent>

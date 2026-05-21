@@ -3,7 +3,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, TrendingUp, LayoutDashboard } from "lucide-react";
+import { Sparkles, TrendingUp, LayoutDashboard, PersonStanding, UserRound } from "lucide-react";
 
 const pillars = [
   {
@@ -38,7 +38,8 @@ export default function About() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-600">
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm">
+          <UserRound className="h-4 w-4" />
             About Me
           </div>
 

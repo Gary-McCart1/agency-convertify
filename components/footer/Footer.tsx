@@ -64,7 +64,7 @@ export default function Footer() {
                 About
               </a>
               <a onClick={open} className="hover:text-blue-600 transition">
-                Book A Call
+                Claim Free Audit
               </a>
             </div>
           </div>

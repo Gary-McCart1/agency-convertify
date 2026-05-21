@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
 export default function CalendlyModal({
@@ -10,12 +10,12 @@ export default function CalendlyModal({
   open: boolean;
   onClose: () => void;
 }) {
+  const [calendlyOpen, setCalendlyOpen] = useState(false);
   // Load Calendly script once when opened
   useEffect(() => {
     if (open) {
       const script = document.createElement("script");
-      script.src =
-        "https://assets.calendly.com/assets/external/widget.js";
+      script.src = "https://assets.calendly.com/assets/external/widget.js";
       script.async = true;
       document.body.appendChild(script);
     }
@@ -54,9 +54,14 @@ export default function CalendlyModal({
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full bg-white p-2 shadow-md hover:bg-zinc-100"
+          className="
+    absolute right-4 top-4 z-10
+    rounded-full bg-black/10
+    px-4 py-2 text-sm font-medium
+    transition hover:bg-black/20
+  "
         >
-          <X className="h-5 w-5" />
+          Close
         </button>
 
         {/* Calendly Embed */}

@@ -3,7 +3,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Rocket } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -60,7 +60,7 @@ export default function CTA() {
               viewport={{ once: true }}
               className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-5 py-2 text-sm font-medium text-blue-600 shadow-md"
             >
-              <Sparkles className="h-4 w-4" />
+              <Rocket className="h-4 w-4" />
               Let’s Grow Your Business
             </motion.div>
 
@@ -133,7 +133,7 @@ export default function CTA() {
                   hover:shadow-[0_20px_45px_-12px_rgba(37,99,235,0.55)]
                 "
               >
-                Book A Free Consultation
+                Claim Your Free Growth Audit
                 <ArrowRight className="ml-3 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
 
