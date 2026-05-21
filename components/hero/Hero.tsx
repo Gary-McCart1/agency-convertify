@@ -12,6 +12,9 @@ import {
   TrendingUp,
   BarChart3,
   CheckCircle2,
+  Activity,
+  Users,
+  ShoppingCart,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -25,7 +28,7 @@ const creativeMockups = [
     highlight: "Organic Growth",
     color: "from-purple-500 to-pink-500",
     accentColor: "bg-purple-50 text-purple-600 border-purple-200",
-    icon: Sparkles,
+    icon: Users,
     src: "/mockups/trasora-mockup.png",
     link: "https://trasora.com/about",
     rotation: -3,
@@ -33,12 +36,12 @@ const creativeMockups = [
   },
   {
     title: "Foamhead E-Commerce",
-    category: "Conversion Optimization",
-    metric: "+22% ROAS",
-    highlight: "+18% CVR",
+    category: "Web & Landing Page Design",
+    metric: "Conversion Optimization",
+    highlight: "Checkout Flow",
     color: "from-cyan-500 to-blue-500",
     accentColor: "bg-cyan-50 text-cyan-600 border-cyan-200",
-    icon: TrendingUp,
+    icon: ShoppingCart,
     src: "/mockups/foamhead.png",
     link: "https://ecom-storefront-foamhead.vercel.app/",
     rotation: 2,
@@ -47,7 +50,7 @@ const creativeMockups = [
   {
     title: "Analytics Dashboard",
     category: "Data Systems • Fullstack",
-    metric: "GA4 + CRO",
+    metric: "Data Analysis",
     highlight: "Real-Time Tracking",
     color: "from-emerald-500 to-teal-500",
     accentColor: "bg-emerald-50 text-emerald-600 border-emerald-200",
