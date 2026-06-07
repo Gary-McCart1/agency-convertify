@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   TrendingUp,
   Users,
-  MousePointerClick,
+  BarChart3,
   ArrowUpRight,
   ArrowLeft,
 } from "lucide-react";
@@ -13,47 +13,47 @@ import {
 const caseStudies = [
   {
     title: "Desentify",
-    type: "E-Commerce Growth Test",
+    type: "Performance Marketing & CRO",
     metric: "+22% ROAS",
-    subMetric: "$5K+ Ad Spend Managed",
+    subMetric: "Multi-Channel Paid Acquisition",
     description:
-      "Ran paid acquisition tests across Meta, Google, and TikTok for a fitness e-commerce product focused on grip strength training.",
+      "Managed and optimized paid acquisition campaigns across Google, Meta, and TikTok for a fitness e-commerce brand focused on improving conversion efficiency and return on ad spend.",
     highlights: [
-      "Improved ROAS by optimizing audiences and creative rotation",
-      "Increased conversion rate by 18% through landing page testing",
-      "Implemented Hotjar + GA4 tracking for funnel visibility",
+      "Improved ROAS by 22% through audience targeting and creative optimization",
+      "Increased conversion rate by 18% via landing page testing and funnel improvements",
+      "Implemented GA4 and Hotjar tracking for user behavior and funnel analysis",
     ],
     icon: TrendingUp,
     gradient: "from-cyan-500 to-blue-500",
   },
   {
     title: "Trasora",
-    type: "Social Platform Launch",
-    metric: "100+ Users",
-    subMetric: "Organic + Referral Growth",
+    type: "Paid Acquisition & Growth Experiment",
+    metric: "5.81% CVR",
+    subMetric: "Google Search Acquisition Campaign",
     description:
-      "Built and launched a music-focused social platform driven entirely through organic social content and referral incentives.",
+      "Built and launched a Google Search acquisition campaign for a social music platform, implementing analytics infrastructure, conversion tracking, and growth experimentation to validate user acquisition and engagement behavior.",
     highlights: [
-      "Acquired users via LinkedIn, Instagram, and Snapchat content",
-      "Ran $500 referral competition to stimulate early growth",
-      "Implemented GA4 event tracking for activation analysis",
+      "Achieved 1.79% CTR across high-intent music discovery keywords",
+      "Implemented GA4, GTM, and conversion tracking infrastructure",
+      "Tested messaging focused on social music discovery and daily sharing behavior",
     ],
     icon: Users,
     gradient: "from-purple-500 to-pink-500",
   },
   {
-    title: "Marketing Systems",
-    type: "Tracking & CRO Infrastructure",
-    metric: "50+ Creatives Tested",
-    subMetric: "Conversion Optimization Systems",
+    title: "Marketing Analytics",
+    type: "Tracking & Growth Infrastructure",
+    metric: "50+ Creatives",
+    subMetric: "Analytics & Funnel Optimization",
     description:
-      "Built marketing infrastructure for testing creatives, tracking funnels, and optimizing conversion performance across campaigns.",
+      "Built marketing infrastructure for tracking user behavior, analyzing conversion funnels, and optimizing campaign performance across growth initiatives and digital products.",
     highlights: [
-      "Set up GA4 + GTM event tracking architecture",
-      "Tested 50+ ad creatives across multiple campaigns",
-      "Improved funnel conversion efficiency by 18%",
+      "Implemented GA4 + GTM event tracking architecture",
+      "Built conversion tracking systems for acquisition funnels",
+      "Analyzed user engagement and activation behavior across campaigns",
     ],
-    icon: MousePointerClick,
+    icon: BarChart3,
     gradient: "from-emerald-500 to-teal-500",
   },
 ];
@@ -67,8 +67,6 @@ export default function CaseStudiesPage() {
         px-6 py-32
       "
     >
-      {/* ================= BACK BUTTON ================= */}
-
       {/* Background blobs */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-200/20 blur-3xl" />
@@ -87,27 +85,27 @@ export default function CaseStudiesPage() {
             <Link
               href="/"
               className="
-      z-50
-      inline-flex items-center justify-center
-      rounded-full border border-blue-100
-      bg-white/70 p-3
-      text-zinc-700
-      shadow-sm backdrop-blur-xl
-      transition-all duration-300
-      hover:scale-105 hover:bg-white/90 hover:shadow-md
-    "
+                z-50
+                inline-flex items-center justify-center
+                rounded-full border border-blue-100
+                bg-white/70 p-3
+                text-zinc-700
+                shadow-sm backdrop-blur-xl
+                transition-all duration-300
+                hover:scale-105 hover:bg-white/90 hover:shadow-md
+              "
             >
               <ArrowLeft className="h-4 w-4" />
             </Link>
 
             <div
               className="
-      inline-flex items-center gap-2
-      rounded-full border border-blue-100
-      bg-white/70 px-4 py-2
-      text-sm font-medium text-blue-600
-      shadow-sm backdrop-blur-xl
-    "
+                inline-flex items-center gap-2
+                rounded-full border border-blue-100
+                bg-white/70 px-4 py-2
+                text-sm font-medium text-blue-600
+                shadow-sm backdrop-blur-xl
+              "
             >
               Real Work & Results
             </div>
@@ -118,9 +116,9 @@ export default function CaseStudiesPage() {
           </h1>
 
           <p className="mt-6 text-lg leading-relaxed text-zinc-600">
-            A collection of real projects where I built and optimized growth
-            systems — from paid ads to product launches and conversion tracking
-            infrastructure.
+            Performance-focused marketing case studies spanning paid acquisition,
+            analytics implementation, conversion optimization, and growth
+            experimentation across startups and digital products.
           </p>
         </motion.div>
 
@@ -188,13 +186,16 @@ export default function CaseStudiesPage() {
                     {study.title}
                   </h3>
 
-                  <p className="mt-4 text-zinc-600 leading-relaxed">
+                  <p className="mt-4 leading-relaxed text-zinc-600">
                     {study.description}
                   </p>
 
                   <div className="mt-6 space-y-3">
                     {study.highlights.map((h, i) => (
-                      <div key={i} className="flex gap-2 text-sm text-zinc-600">
+                      <div
+                        key={i}
+                        className="flex gap-2 text-sm text-zinc-600"
+                      >
                         <span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" />
                         {h}
                       </div>

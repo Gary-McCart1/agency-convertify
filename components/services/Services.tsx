@@ -51,7 +51,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="relative overflow-hidden bg-white px-6 py-32"
+      className="relative overflow-hidden bg-white px-6 py-24"
     >
       {/* Ambient Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden">

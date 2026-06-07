@@ -1,9 +1,19 @@
-// components/about/About.tsx
-
 "use client";
 
-import { motion } from "framer-motion";
-import { Sparkles, TrendingUp, LayoutDashboard, PersonStanding, UserRound } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Sparkles,
+  TrendingUp,
+  LayoutDashboard,
+  UserRound,
+  Calendar,
+  ArrowRight,
+} from "lucide-react";
+
+import AuditForm from "@/components/AuditForm";
+import { useCalendly } from "@/components/calendly/CalendlyProvider";
+import { Button } from "@/components/ui/button";
 
 const pillars = [
   {
@@ -21,109 +31,118 @@ const pillars = [
   {
     title: "Technical + Marketing Hybrid",
     description:
-      "I bridge development and marketing to create complete growth systems most agencies don’t have the technical ability to build.",
+      "I bridge development and marketing to create complete growth systems most agencies don't have the technical ability to build.",
     icon: Sparkles,
   },
 ];
 
 export default function About() {
+  const { open } = useCalendly();
+
   return (
-    <section id="about" className="relative overflow-hidden bg-white px-6 py-32">
-      <div className="mx-auto grid max-w-7xl gap-20 lg:grid-cols-2 lg:items-center">
-        
-        {/* LEFT SIDE */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm">
-          <UserRound className="h-4 w-4" />
-            About Me
-          </div>
-
-          <h2 className="mt-6 text-4xl font-bold tracking-tight text-black md:text-6xl">
-            I build growth systems for local businesses
-          </h2>
-
-          <p className="mt-8 text-lg leading-relaxed text-zinc-600">
-            I help service-based businesses get more leads and customers through
-            paid ads, landing pages, and conversion tracking systems that show
-            what’s actually working.
-          </p>
-
-          <p className="mt-6 text-lg leading-relaxed text-zinc-600">
-            Instead of outsourcing or delegating everything, I stay directly
-            involved in the work — from strategy to implementation — so nothing
-            gets lost between planning and execution.
-          </p>
-
-          {/* STATS */}
-          <div className="mt-12 grid grid-cols-2 gap-6">
-            <div>
-              <h3 className="text-3xl font-bold text-black">+22%</h3>
-              <p className="mt-2 text-sm text-zinc-500">
-                ROAS improvement (eCom test)
-              </p>
+    <>
+      <section
+        id="about"
+        className="relative overflow-hidden bg-white px-6 py-32"
+      >
+        <div className="mx-auto grid max-w-7xl gap-20 lg:grid-cols-2 lg:items-center">
+          {/* LEFT SIDE */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm">
+              <UserRound className="h-4 w-4" />
+              About Me
             </div>
 
-            <div>
-              <h3 className="text-3xl font-bold text-black">100+</h3>
-              <p className="mt-2 text-sm text-zinc-500">
-                Users acquired (organic systems)
-              </p>
+            <h2 className="mt-6 text-4xl font-bold tracking-tight text-black md:text-6xl">
+              I build growth systems for local businesses
+            </h2>
+
+            <p className="mt-8 text-lg leading-relaxed text-zinc-600">
+              I help service-based businesses get more leads and customers
+              through paid ads, landing pages, and conversion tracking systems
+              that show what&apos;s actually working.
+            </p>
+
+            <p className="mt-6 text-lg leading-relaxed text-zinc-600">
+              Instead of outsourcing or delegating everything, I stay directly
+              involved in the work — from strategy to implementation — so
+              nothing gets lost between planning and execution.
+            </p>
+
+            {/* STATS */}
+            <div className="mt-12 grid grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-3xl font-bold text-black">+22%</h3>
+                <p className="mt-2 text-sm text-zinc-500">
+                  ROAS improvement (eCom test)
+                </p>
+              </div>
+              <div>
+                <h3 className="text-3xl font-bold text-black">100+</h3>
+                <p className="mt-2 text-sm text-zinc-500">
+                  Users acquired (organic systems)
+                </p>
+              </div>
             </div>
 
-            
-          </div>
-        </motion.div>
+            {/* CTA — direct book a call fits the personal trust built here */}
+            <div className="mt-12 flex flex-wrap gap-4">
+              <a href="#quiz">
+                <Button className="group h-12 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 text-base font-semibold text-white shadow-lg">
+                  Claim Free Audit
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </a>
 
-        {/* RIGHT SIDE */}
-        <div className="space-y-6">
-          {pillars.map((pillar, index) => {
-            const Icon = pillar.icon;
-
-            return (
-              <motion.div
-                key={pillar.title}
-                initial={{ opacity: 0, x: 40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.1,
-                }}
-                viewport={{ once: true }}
-                whileHover={{ y: -4 }}
-                className="
-                  group rounded-[28px]
-                  border border-black/5
-                  bg-gradient-to-br from-white to-blue-50/40
-                  p-8 shadow-sm
-                  transition-all duration-300
-                  hover:shadow-xl
-                "
+              <Button
+                variant="outline"
+                onClick={open}
+                className="h-12 rounded-full px-8"
               >
-                <div className="flex items-start gap-5">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-500 shadow-lg">
-                    <Icon className="h-6 w-6 text-white" />
-                  </div>
+                <Calendar className="mr-2 h-4 w-4" />
+                Book Strategy Call
+              </Button>
+            </div>
+          </motion.div>
 
-                  <div>
-                    <h3 className="text-2xl font-semibold text-black">
-                      {pillar.title}
-                    </h3>
-
-                    <p className="mt-3 leading-relaxed text-zinc-600">
-                      {pillar.description}
-                    </p>
+          {/* RIGHT SIDE */}
+          <div className="space-y-6">
+            {pillars.map((pillar, index) => {
+              const Icon = pillar.icon;
+              return (
+                <motion.div
+                  key={pillar.title}
+                  initial={{ opacity: 0, x: 40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -4 }}
+                  className="group rounded-[28px] border border-black/5 bg-gradient-to-br from-white to-blue-50/40 p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
+                >
+                  <div className="flex items-start gap-5">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-500 shadow-lg">
+                      <Icon className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-semibold text-black">
+                        {pillar.title}
+                      </h3>
+                      <p className="mt-3 leading-relaxed text-zinc-600">
+                        {pillar.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

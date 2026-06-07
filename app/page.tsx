@@ -6,6 +6,7 @@ import Services from "@/components/services/Services";
 import Results from "@/components/results/Results";
 import About from "@/components/about/About";
 import TrustedBy from "@/components/ui/TrustedBy";
+import AuditCTACard from "@/components/AuditCTACard";
 
 export default function HomePage() {
   return (
@@ -15,6 +16,8 @@ export default function HomePage() {
 
       {/* Trusted By */}
       <TrustedBy />
+
+      <AuditCTACard />
 
       {/* What you do */}
       <Services />
