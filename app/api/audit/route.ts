@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // Map raw values to readable labels matching your new configuration
 const BUDGET_LABELS: Record<string, string> = {
   none: "Not running ads yet",
@@ -29,6 +27,19 @@ const MARKETING_LABELS: Record<string, string> = {
 
 export async function POST(req: NextRequest) {
   try {
+    // 1. Move inside & validate key exists when the API endpoint is actually hit
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.error("CRITICAL: RESEND_API_KEY environment variable is missing.");
+      return NextResponse.json(
+        { error: "Email service misconfigured. Please contact support." },
+        { status: 500 }
+      );
+    }
+
+    // 2. Initialize Resend safely here
+    const resend = new Resend(apiKey);
+
     const {
       name,
       url,
