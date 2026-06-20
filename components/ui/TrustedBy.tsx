@@ -4,13 +4,18 @@ import Image from "next/image";
 
 const projects = [
   {
-    name: "Founders In Focus",
-    src: "/brand-logos/founders.png",
+    name: "Charlie's Landscaping LLC",
+    src: "/brand-logos/charlies-landscaping-logo.png",
   },
   {
     name: "Trasora",
     src: "/brand-logos/trasora.png",
   },
+  {
+    name: "Founders In Focus",
+    src: "/brand-logos/founders.png",
+  },
+
   {
     name: "Desentify",
     src: "/brand-logos/desentify.png",

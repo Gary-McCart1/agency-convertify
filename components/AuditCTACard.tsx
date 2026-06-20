@@ -7,49 +7,30 @@ import { Button } from "@/components/ui/button";
 
 const STEPS = [
   {
+    id: "name",
+    question: "What's your name?",
+    placeholder: "John Smith",
+    type: "text",
+    helper: "So I know who I'm recording the audit for.",
+  },
+  {
     id: "url",
-    question: "What's your website URL?",
+    question: "What's your website URL or company name?",
     placeholder: "https://yourwebsite.com",
-    type: "url",
+    type: "text", // Changed from "url" to "text" to permit flexible entries safely
     helper: "We'll run a full audit on this page.",
   },
-
-  {
-    id: "business",
-    question: "What type of business are you?",
-    type: "select",
-    options: [
-      { label: "Local Service Business", value: "local" },
-      { label: "E-Commerce", value: "ecommerce" },
-      { label: "SaaS / Software", value: "saas" },
-      { label: "Other", value: "other" },
-    ],
-  },
-
   {
     id: "challenge",
-    question: "What's your biggest challenge right now?",
+    question: "What's your main business challenge right now?",
     type: "select",
     options: [
-      { label: "Getting more traffic", value: "traffic" },
-      { label: "Traffic isn't converting", value: "conversions" },
-      { label: "I don't know what's working", value: "analytics" },
-      { label: "Starting from scratch", value: "scratch" },
+      { label: "Our phone isn't ringing enough", value: "low_leads" },
+      { label: "We get web traffic/clicks, but no actual jobs", value: "poor_conversion" },
+      { label: "We want to dominate our local city on Google", value: "local_dominance" },
+      { label: "Tired of paying for junk shared leads (Angi/HomeAdvisor)", value: "anti_lead_brokers" },
     ],
   },
-
-  {
-    id: "leadGoal",
-    question: "How many new leads would you like each month?",
-    type: "select",
-    options: [
-      { label: "1-10", value: "1_10" },
-      { label: "10-25", value: "10_25" },
-      { label: "25-50", value: "25_50" },
-      { label: "50+", value: "50_plus" },
-    ],
-  },
-
   {
     id: "marketing",
     question: "How are you currently getting customers?",
@@ -62,7 +43,6 @@ const STEPS = [
       { label: "Multiple Channels", value: "multiple" },
     ],
   },
-
   {
     id: "budget",
     question: "What's your current monthly marketing budget?",
@@ -75,15 +55,6 @@ const STEPS = [
       { label: "$5,000+/mo", value: "5000_plus" },
     ],
   },
-
-  {
-    id: "name",
-    question: "What's your name?",
-    placeholder: "John Smith",
-    type: "text",
-    helper: "So I know who I'm recording the audit for.",
-  },
-
   {
     id: "email",
     question: "Where should I send your audit?",
@@ -108,30 +79,22 @@ export default function AuditCTACard() {
   const isLast = step === STEPS.length - 1;
   const progress = (step / STEPS.length) * 100;
 
-  const handleNext = async () => {
-    const value = inputValue.trim();
+  // Central processing function to execute safe state updates across fields
+  const processNextStep = async (valueToCommit: string) => {
+    const finalValue = valueToCommit.trim();
 
-    if (!value) {
+    if (!finalValue) {
       setError("This field is required.");
       return;
     }
 
-    if (current.type === "url") {
-      try {
-        new URL(value.startsWith("http") ? value : `https://${value}`);
-      } catch {
-        setError("Please enter a valid URL.");
-        return;
-      }
-    }
-
-    if (current.type === "email" && !/\S+@\S+\.\S+/.test(value)) {
+    if (current.type === "email" && !/\S+@\S+\.\S+/.test(finalValue)) {
       setError("Please enter a valid email address.");
       return;
     }
 
-    const updated = { ...formData, [current.id]: value };
-    setFormData(updated);
+    const updatedFormData = { ...formData, [current.id]: finalValue };
+    setFormData(updatedFormData);
     setError("");
 
     if (isLast) {
@@ -140,43 +103,50 @@ export default function AuditCTACard() {
         const res = await fetch("/api/audit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updated),
+          body: JSON.stringify(updatedFormData),
         });
-        if (!res.ok) throw new Error("Submission failed");
+        
+        if (!res.ok) {
+          const resError = await res.json().catch(() => ({}));
+          throw new Error(resError.error || "Submission failed");
+        }
+        
         setSubmitted(true);
-      } catch {
-        setError("Something went wrong. Please try again.");
+      } catch (err: any) {
+        setError(err.message || "Something went wrong. Please try again.");
       } finally {
         setSubmitting(false);
       }
       return;
     }
 
+    const nextStepIndex = step + 1;
     setDirection(1);
-    setStep((s) => s + 1);
-    setInputValue("");
+    setStep(nextStepIndex);
+    // Hydrate field memory space if returning backwards earlier
+    setInputValue(updatedFormData[STEPS[nextStepIndex].id] || "");
+  };
+
+  const handleNext = () => {
+    processNextStep(inputValue);
   };
 
   const handleBack = () => {
     if (step === 0) return;
     setDirection(-1);
-    setStep((s) => s - 1);
-    setInputValue(formData[STEPS[step - 1].id] ?? "");
+    const prevStepIndex = step - 1;
+    setStep(prevStepIndex);
+    setInputValue(formData[STEPS[prevStepIndex].id] ?? "");
     setError("");
   };
 
-  const handleSelect = (value: string) => {
-    setInputValue(value);
+  const handleSelect = (selectedValue: string) => {
+    setInputValue(selectedValue);
     setError("");
-    // Auto-advance on select after brief delay for visual feedback
+    // Clean delay to avoid shifting layout views during transition animations
     setTimeout(() => {
-      const updated = { ...formData, [current.id]: value };
-      setFormData(updated);
-      setError("");
-      setDirection(1);
-      setStep((s) => s + 1);
-      setInputValue("");
-    }, 300);
+      processNextStep(selectedValue);
+    }, 250);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -190,11 +160,8 @@ export default function AuditCTACard() {
   };
 
   return (
-    <section
-      className="relative overflow-hidden bg-white py-16 pt-24 mt-5"
-      id="quiz"
-    >
-      {/* Background */}
+    <section className="relative overflow-hidden bg-white py-16 pt-24 mt-5" id="quiz">
+      {/* Background Elements */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-50 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-[300px] w-[300px] rounded-full bg-indigo-50 blur-3xl" />
@@ -307,6 +274,7 @@ export default function AuditCTACard() {
                     </p>
                     {step > 0 && (
                       <button
+                        type="button"
                         onClick={handleBack}
                         className="text-xs font-medium text-zinc-400 transition hover:text-zinc-700"
                       >
@@ -326,13 +294,14 @@ export default function AuditCTACard() {
                     </p>
                   )}
 
-                  {/* Input */}
+                  {/* Input Elements */}
                   <div className="mt-6">
                     {current.type === "select" ? (
                       <div className="grid gap-2.5 sm:grid-cols-2">
                         {current.options?.map((opt) => (
                           <motion.button
                             key={opt.value}
+                            type="button"
                             onClick={() => handleSelect(opt.value)}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
@@ -351,7 +320,7 @@ export default function AuditCTACard() {
                       </div>
                     ) : (
                       <input
-                        type={current.type === "url" ? "text" : current.type}
+                        type={current.type}
                         value={inputValue}
                         onChange={(e) => {
                           setInputValue(e.target.value);
@@ -369,7 +338,7 @@ export default function AuditCTACard() {
                     )}
                   </div>
 
-                  {/* Continue button — only shown for text/email/url inputs */}
+                  {/* Continue button — only shown for open inputs */}
                   {current.type !== "select" && (
                     <div className="mt-6">
                       <Button

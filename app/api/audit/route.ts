@@ -3,7 +3,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Map raw values to readable labels
+// Map raw values to readable labels matching your new configuration
 const BUDGET_LABELS: Record<string, string> = {
   none: "Not running ads yet",
   under_500: "Under $500/mo",
@@ -13,24 +13,10 @@ const BUDGET_LABELS: Record<string, string> = {
 };
 
 const CHALLENGE_LABELS: Record<string, string> = {
-  traffic: "Getting traffic to their site",
-  conversions: "Traffic comes but nobody converts",
-  analytics: "Doesn't know what's working",
-  scratch: "Starting from scratch",
-};
-
-const BUSINESS_LABELS: Record<string, string> = {
-  local: "Local Service Business",
-  ecommerce: "E-Commerce",
-  saas: "SaaS / Software",
-  other: "Other",
-};
-
-const LEAD_GOAL_LABELS: Record<string, string> = {
-  "1_10": "1-10 leads/month",
-  "10_25": "10-25 leads/month",
-  "25_50": "25-50 leads/month",
-  "50_plus": "50+ leads/month",
+  low_leads: "Our phone isn't ringing enough",
+  poor_conversion: "We get web traffic/clicks, but no actual jobs",
+  local_dominance: "We want to dominate our local city on Google",
+  anti_lead_brokers: "Tired of paying for junk shared leads (Angi/HomeAdvisor)",
 };
 
 const MARKETING_LABELS: Record<string, string> = {
@@ -46,25 +32,14 @@ export async function POST(req: NextRequest) {
     const {
       name,
       url,
-      budget,
       challenge,
-      business,
-      leadGoal,
       marketing,
+      budget,
       email,
     } = await req.json();
 
-    // Comprehensive validation for all required fields
-    if (
-      !name ||
-      !url ||
-      !budget ||
-      !challenge ||
-      !business ||
-      !leadGoal ||
-      !marketing ||
-      !email
-    ) {
+    // Comprehensive validation matching your new 6-step layout
+    if (!name || !url || !challenge || !marketing || !budget || !email) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -92,27 +67,15 @@ export async function POST(req: NextRequest) {
               <td style="padding: 10px 0; font-weight: 600; color: #111827;">${name}</td>
             </tr>
             <tr style="background: #f9fafb;">
-              <td style="padding: 10px 8px; color: #6b7280;">Website</td>
+              <td style="padding: 10px 8px; color: #6b7280;">Website/Company</td>
               <td style="padding: 10px 8px; font-weight: 600;">
-                <a href="${url}" target="_blank" style="color: #2563eb;">${url}</a>
+                <span style="color: #2563eb;">${url}</span>
               </td>
             </tr>
             <tr>
-              <td style="padding: 10px 0; color: #6b7280;">Business Type</td>
+              <td style="padding: 10px 0; color: #6b7280;">Biggest Challenge</td>
               <td style="padding: 10px 0; font-weight: 600; color: #111827;">
-                ${BUSINESS_LABELS[business] ?? business}
-              </td>
-            </tr>
-            <tr style="background: #f9fafb;">
-              <td style="padding: 10px 8px; color: #6b7280;">Biggest Challenge</td>
-              <td style="padding: 10px 8px; font-weight: 600; color: #111827;">
                 ${CHALLENGE_LABELS[challenge] ?? challenge}
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; color: #6b7280;">Lead Goal</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #111827;">
-                ${LEAD_GOAL_LABELS[leadGoal] ?? leadGoal}
               </td>
             </tr>
             <tr style="background: #f9fafb;">
@@ -143,7 +106,7 @@ export async function POST(req: NextRequest) {
 
           <div style="background: #eff6ff; border-radius: 12px; padding: 16px;">
             <p style="margin: 0; font-size: 13px; color: #1e40af;">
-              <strong>Next step:</strong> Record a Loom audit for <a href="${url}" style="color: #2563eb;">${url}</a> 
+              <strong>Next step:</strong> Record a Loom audit for ${url} 
               and reply to <a href="mailto:${email}" style="color: #2563eb;">${email}</a> within 24 hours.
             </p>
           </div>
@@ -163,22 +126,20 @@ export async function POST(req: NextRequest) {
             Hey ${name},
           </p>
           <p style="color: #374151; line-height: 1.7;">
-            Thanks for requesting a complimentary growth audit for 
-            <a href="${url}" style="color: #2563eb; font-weight: 600;">${url}</a>.
+            Thanks for requesting a complimentary growth audit for <strong>${url}</strong>.
           </p>
           <p style="color: #374151; line-height: 1.7;">
             Over the next 24 hours I'll personally review:
           </p>
           
           <ul style="color: #374151; line-height: 1.7; padding-left: 20px;">
-            <li>Your website experience and conversion opportunities</li>
-            <li>Your local SEO visibility</li>
-            <li>Your lead generation strategy</li>
-            <li>Your current marketing channels</li>
+            <li>Your customer acquisition systems and visibility hurdles</li>
+            <li>Your local optimization opportunities</li>
+            <li>Where you might be burning budget on inefficient lead channels</li>
           </ul>
 
           <p style="color: #374151; line-height: 1.7;">
-            Then I'll record a personalized Loom video walking through the biggest opportunities I find and the fastest improvements you can make.
+            Then I'll record a personalized Loom video walking through the biggest growth leaks I find and exactly how to plug them.
           </p>
 
           <div style="background: #f0fdf4; border-left: 4px solid #22c55e; border-radius: 4px; padding: 16px; margin: 24px 0;">
