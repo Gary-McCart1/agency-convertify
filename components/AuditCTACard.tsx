@@ -329,7 +329,6 @@ export default function AuditCTACard() {
                         }}
                         onKeyDown={handleKeyDown}
                         placeholder={current.placeholder}
-                        autoFocus
                         className="w-full rounded-xl border-2 border-zinc-200 px-4 py-3.5 text-base text-zinc-900 placeholder:text-zinc-400 transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
                       />
                     )}
