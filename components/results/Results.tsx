@@ -13,6 +13,7 @@ import {
 
 import AuditForm from "@/components/AuditForm";
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/gtag";
 
 const results = [
   {
@@ -205,7 +206,7 @@ export default function Results() {
 
             <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row">
               <a href="#quiz">
-                <Button className="group h-13 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 text-base font-semibold text-white shadow-[0_10px_25px_-10px_rgba(37,99,235,0.45)] transition-all hover:scale-[1.03]">
+                <Button onClick={() => trackEvent("go_to_lead_quiz")} className="group h-13 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 text-base font-semibold text-white shadow-[0_10px_25px_-10px_rgba(37,99,235,0.45)] transition-all hover:scale-[1.03]">
                   Get My Free Website Audit
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>

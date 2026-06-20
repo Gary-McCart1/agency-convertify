@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, CheckCircle2, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/gtag";
 
 const STEPS = [
   {
@@ -26,9 +27,18 @@ const STEPS = [
     type: "select",
     options: [
       { label: "Our phone isn't ringing enough", value: "low_leads" },
-      { label: "We get web traffic/clicks, but no actual jobs", value: "poor_conversion" },
-      { label: "We want to dominate our local city on Google", value: "local_dominance" },
-      { label: "Tired of paying for junk shared leads (Angi/HomeAdvisor)", value: "anti_lead_brokers" },
+      {
+        label: "We get web traffic/clicks, but no actual jobs",
+        value: "poor_conversion",
+      },
+      {
+        label: "We want to dominate our local city on Google",
+        value: "local_dominance",
+      },
+      {
+        label: "Tired of paying for junk shared leads (Angi/HomeAdvisor)",
+        value: "anti_lead_brokers",
+      },
     ],
   },
   {
@@ -74,7 +84,7 @@ export default function AuditCTACard() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = back
-
+  const [startedQuiz, setStartedQuiz] = useState(false);
   const current = STEPS[step];
   const isLast = step === STEPS.length - 1;
   const progress = (step / STEPS.length) * 100;
@@ -105,18 +115,22 @@ export default function AuditCTACard() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updatedFormData),
         });
-        
+
         if (!res.ok) {
           const resError = await res.json().catch(() => ({}));
           throw new Error(resError.error || "Submission failed");
         }
-        
+
         setSubmitted(true);
       } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+        const message =
+          err instanceof Error
+            ? err.message
+            : "Something went wrong. Please try again.";
         setError(message);
       } finally {
         setSubmitting(false);
+        trackEvent("submit_lead_quiz");
       }
       return;
     }
@@ -160,8 +174,18 @@ export default function AuditCTACard() {
     exit: (dir: number) => ({ opacity: 0, x: dir * -40 }),
   };
 
+  const handleFirstInteraction = () => {
+    if (!startedQuiz) {
+      trackEvent("start_lead_quiz");
+      setStartedQuiz(true);
+    }
+  };
+
   return (
-    <section className="relative overflow-hidden bg-white py-16 pt-24 mt-5" id="quiz">
+    <section
+      className="relative overflow-hidden bg-white py-16 pt-24 mt-5"
+      id="quiz"
+    >
       {/* Background Elements */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-50 blur-3xl" />
@@ -304,6 +328,7 @@ export default function AuditCTACard() {
                             key={opt.value}
                             type="button"
                             onClick={() => handleSelect(opt.value)}
+                            
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             className={`flex items-center justify-between rounded-xl border-2 px-4 py-3.5 text-left text-sm font-medium transition-all ${
@@ -326,6 +351,7 @@ export default function AuditCTACard() {
                         onChange={(e) => {
                           setInputValue(e.target.value);
                           setError("");
+                          handleFirstInteraction();
                         }}
                         onKeyDown={handleKeyDown}
                         placeholder={current.placeholder}

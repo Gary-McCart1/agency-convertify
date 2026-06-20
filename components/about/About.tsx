@@ -14,6 +14,7 @@ import {
 import AuditForm from "@/components/AuditForm";
 import { useCalendly } from "@/components/calendly/CalendlyProvider";
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/gtag";
 
 const pillars = [
   {
@@ -38,6 +39,11 @@ const pillars = [
 
 export default function About() {
   const { open } = useCalendly();
+  
+  const handleDirectCall = () => {
+    trackEvent("direct_call_form_started")
+    open();
+  }
 
   return (
     <>
@@ -93,7 +99,7 @@ export default function About() {
             {/* CTA — direct book a call fits the personal trust built here */}
             <div className="mt-12 flex flex-wrap gap-4">
               <a href="#quiz">
-                <Button className="group h-12 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 text-base font-semibold text-white shadow-lg">
+                <Button onClick={() => trackEvent("go_to_lead_quiz")}className="group h-12 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 text-base font-semibold text-white shadow-lg">
                   Claim Free Audit
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -101,7 +107,7 @@ export default function About() {
 
               <Button
                 variant="outline"
-                onClick={open}
+                onClick={handleDirectCall}
                 className="h-12 rounded-full px-8"
               >
                 <Calendar className="mr-2 h-4 w-4" />

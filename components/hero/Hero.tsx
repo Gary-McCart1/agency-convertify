@@ -19,6 +19,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { trackEvent } from "@/lib/gtag";
 
 const creativeMockups = [
   {
@@ -199,13 +200,14 @@ export default function Hero() {
             {/* CTA - Updated to open AuditForm */}
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <a href="#quiz">
-                <Button className="group h-13 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 text-base font-semibold text-white shadow-[0_10px_25px_-10px_rgba(37,99,235,0.45)] transition-all duration-300 hover:scale-[1.03]">
+                <Button className="group h-13 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 text-base font-semibold text-white shadow-[0_10px_25px_-10px_rgba(37,99,235,0.45)] transition-all duration-300 hover:scale-[1.03]" onClick={() => trackEvent("go_to_lead_quiz")}>
                   Claim My Free Website Audit
                   <ArrowRight className="ml-3 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </a>
               <Link href="/case-studies">
                 <Button
+                  onClick={() => trackEvent("view_case_studies")}
                   variant="outline"
                   className="h-13 rounded-full border-2 border-blue-200 bg-white/80 px-8 text-base font-medium shadow-lg backdrop-blur-sm transition-all hover:border-blue-400 hover:bg-blue-50"
                 >

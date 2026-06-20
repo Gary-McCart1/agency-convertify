@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { trackEvent } from "@/lib/gtag";
 
 const navLinks = [
   { name: "Services", href: "#services" },
@@ -56,7 +57,7 @@ export default function Navbar() {
 
             <a href="#quiz">
               <Button
-                
+                onClick={() => trackEvent("go_to_lead_quiz")}
                 className="group ml-3 h-12 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(37,99,235,0.5)] transition-all duration-300 hover:scale-[1.03]"
               >
                 Claim Free Website Audit
@@ -108,7 +109,7 @@ export default function Navbar() {
 
                 <a href="#quiz">
                   <Button
-                    
+                    onClick={() => trackEvent("go_to_lead_quiz")}
                     className="mt-8 h-14 w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-base font-semibold text-white"
                   >
                     Claim Free Website Audit

@@ -9,9 +9,15 @@ import { ArrowRight } from "lucide-react";
 import AuditForm from "@/components/AuditForm";
 import { useCalendly } from "../calendly/CalendlyProvider";
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/gtag";
 
 export default function Footer() {
   const { open } = useCalendly();
+
+  const handleDirectCall = () => {
+    trackEvent("direct_call_form_started")
+    open();
+  }
 
   return (
     <>
@@ -72,7 +78,7 @@ export default function Footer() {
               <div className="mt-4 flex flex-col gap-3">
                 {/* Primary: Audit */}
                 <a href="#quiz">
-                  <Button className="group h-11 w-full rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-md transition-all hover:scale-[1.02]">
+                  <Button onClick={() => trackEvent("go_to_lead_quiz")} className="group h-11 w-full rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-md transition-all hover:scale-[1.02]">
                     Get Free Website Audit
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Button>
@@ -80,7 +86,7 @@ export default function Footer() {
 
                 {/* Secondary: Direct call */}
                 <button
-                  onClick={open}
+                  onClick={handleDirectCall}
                   className="text-sm text-zinc-400 transition hover:text-blue-600 underline underline-offset-2"
                 >
                   Already know what you need? Book a call

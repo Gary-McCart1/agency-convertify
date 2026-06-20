@@ -10,9 +10,15 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import AuditForm from "@/components/AuditForm";
 import { useCalendly } from "../calendly/CalendlyProvider";
+import { trackEvent } from "@/lib/gtag";
 
 export default function CTA() {
   const { open } = useCalendly();
+
+  const handleDirectCall = () => {
+    trackEvent("direct_call_form_started");
+    open();
+  };
 
   return (
     <>
@@ -122,6 +128,7 @@ export default function CTA() {
                 <div className="flex flex-col items-center gap-3 sm:flex-row">
                   <a href="#quiz">
                     <Button
+                      onClick={() => trackEvent("go_to_lead_quiz")}
                       size="lg"
                       className="group h-16 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-10 text-base font-semibold text-white shadow-[0_15px_35px_-10px_rgba(37,99,235,0.45)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_20px_45px_-12px_rgba(37,99,235,0.55)]"
                     >
@@ -132,6 +139,7 @@ export default function CTA() {
 
                   <Link href="/case-studies">
                     <Button
+                      onClick={() => trackEvent("view_case_studies")}
                       size="lg"
                       variant="outline"
                       className="h-16 rounded-full border-black/10 bg-white px-10 text-base font-semibold text-black shadow-md transition-all duration-300 hover:border-blue-300 hover:bg-blue-50"
@@ -143,7 +151,7 @@ export default function CTA() {
 
                 {/* Secondary: Direct call for warm leads */}
                 <button
-                  onClick={open}
+                  onClick={handleDirectCall}
                   className="group mt-1 flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-blue-600"
                 >
                   <Calendar className="h-4 w-4 transition-transform group-hover:scale-110" />
