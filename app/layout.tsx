@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-
+import { GoogleAnalytics } from "@next/third-parties/google";
 import Navbar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/Footer";
 import CalendlyProvider from "@/components/calendly/CalendlyProvider";
@@ -46,6 +46,8 @@ export default function RootLayout({
           <Footer />
         </CalendlyProvider>
       </body>
+
+      <GoogleAnalytics gaId="G-LXPZ8NP3QR" />
     </html>
   );
 }
