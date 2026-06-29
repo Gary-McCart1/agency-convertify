@@ -6,6 +6,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import Navbar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/Footer";
 import CalendlyProvider from "@/components/calendly/CalendlyProvider";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -45,9 +46,18 @@ export default function RootLayout({
           {children}
           <Footer />
         </CalendlyProvider>
-      </body>
 
-      <GoogleAnalytics gaId="G-LXPZ8NP3QR" />
+        {/* GoHighLevel Chat Widget - Put your actual widget code or URL snippet here */}
+        <Script
+          src="https://widgets.leadconnectorhq.com/loader.js"
+          data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
+          data-widget-id="YOUR_ACTUAL_WIDGET_ID_FROM_GHL" 
+          strategy="afterInteractive"
+        />
+
+        {/* Google Analytics fixed inside the body tag */}
+        <GoogleAnalytics gaId="G-LXPZ8NP3QR" />
+      </body>
     </html>
   );
 }

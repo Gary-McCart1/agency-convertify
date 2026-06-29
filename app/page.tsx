@@ -1,34 +1,39 @@
-import CTA from "@/components/cta/Cta";
-import Footer from "@/components/footer/Footer";
 import Hero from "@/components/hero/Hero";
-
+import TrustBadges from "@/components/ui/TrustBadges"; // Upgraded from TrustedBy
 import Services from "@/components/services/Services";
-import Results from "@/components/results/Results";
+import AuditCTACard from "@/components/AuditCTACard";   // Positioned strategically after value setup
+import HowItWorks from "@/components/howItWorks/HowItWorks"; // Added for process friction reduction
+import SystemValue from "@/components/results/SystemValue"; // Refactored from "Results" to sell features/pricing
 import About from "@/components/about/About";
-import TrustedBy from "@/components/ui/TrustedBy";
-import AuditCTACard from "@/components/AuditCTACard";
+import CTA from "@/components/cta/Cta";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white text-black">
-      {/* Hook */}
+    <main className="min-h-screen bg-white text-black antialiased">
+      {/* 1. HOOK: Immediate value proposition */}
       <Hero />
 
-      {/* Trusted By */}
-      <TrustedBy />
+      {/* 2. SILENT TRUST: Local accountability / Security badges */}
+      <TrustBadges />
 
-      <AuditCTACard />
-
-      {/* What you do */}
+      {/* 3. CAPABILITY: What we build for your business */}
       <Services />
 
-      {/* Proof */}
-      <Results />
+      {/* 4. VALUE TRIGGER: High-intent lead capture based on the services above */}
+      <div className="bg-slate-50 py-12">
+        <AuditCTACard />
+      </div>
 
-      {/* Trust / Personal connection */}
+      {/* 5. PROCESS SIMPLICITY: Shows them it takes 0 mins of their time */}
+      <HowItWorks />
+
+      {/* 6. TRANSPARENCY/VALUE: The $249 flat-rate stack & UI deliverables */}
+      <SystemValue />
+
+      {/* 7. LOCAL AFFINITY: "Hey, I'm right down the road in NC" */}
       <About />
 
-      {/* Conversion */}
+      {/* 8. CLOSING CONVERSION: Final action push */}
       <CTA />
     </main>
   );

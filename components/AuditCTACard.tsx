@@ -9,68 +9,70 @@ import { trackEvent } from "@/lib/gtag";
 const STEPS = [
   {
     id: "name",
-    question: "What's your name?",
+    question: "What name should I address your video to?",
     placeholder: "John Smith",
     type: "text",
-    helper: "So I know who I'm recording the audit for.",
+    helper: "So I know who I'm recording this personal walkthrough for.",
   },
   {
-    id: "url",
-    question: "What's your website URL or company name?",
-    placeholder: "https://yourwebsite.com",
-    type: "text", // Changed from "url" to "text" to permit flexible entries safely
-    helper: "We'll run a full audit on this page.",
+    id: "business_name",
+    question: "What is your business name or Google Map name?",
+    placeholder: "Apex Plumbing & HVAC",
+    type: "text",
+    helper: "We will pull up your active live listing to run a direct map audit.",
+  },
+  {
+    id: "trade",
+    question: "What is your main contractor trade?",
+    type: "select",
+    options: [
+      { label: "Roofing & Exteriors", value: "roofing" },
+      { label: "Plumbing, HVAC, or Electrical", value: "mep" },
+      { label: "Landscaping & Tree Service", value: "landscaping" },
+      { label: "Remodeling & Handyman Services", value: "remodeling" },
+      { label: "Other Home Service Trade", value: "other_trade" },
+    ],
   },
   {
     id: "challenge",
-    question: "What's your main business challenge right now?",
+    question: "What's your biggest business headache right now?",
     type: "select",
     options: [
-      { label: "Our phone isn't ringing enough", value: "low_leads" },
       {
-        label: "We get web traffic/clicks, but no actual jobs",
-        value: "poor_conversion",
-      },
-      {
-        label: "We want to dominate our local city on Google",
-        value: "local_dominance",
-      },
-      {
-        label: "Tired of paying for junk shared leads (Angi/HomeAdvisor)",
+        label: "Tired of paying for junk shared leads (Angi / HomeAdvisor)",
         value: "anti_lead_brokers",
       },
+      {
+        label: "We are stuck outside the top 3 spots on Google Maps",
+        value: "low_map_ranking",
+      },
+      {
+        label: "We get map clicks, but our competitor has way more reviews",
+        value: "poor_social_proof",
+      },
+      {
+        label: "We want to pull high-paying clients from nearby towns",
+        value: "radius_expansion",
+      },
     ],
   },
   {
-    id: "marketing",
-    question: "How are you currently getting customers?",
+    id: "review_process",
+    question: "How do you currently ask clients for 5-star reviews?",
     type: "select",
     options: [
-      { label: "Referrals / Word of Mouth", value: "referrals" },
-      { label: "Google Ads", value: "google_ads" },
-      { label: "SEO / Google Maps", value: "seo" },
-      { label: "Social Media", value: "social" },
-      { label: "Multiple Channels", value: "multiple" },
-    ],
-  },
-  {
-    id: "budget",
-    question: "What's your current monthly marketing budget?",
-    type: "select",
-    options: [
-      { label: "Not investing currently", value: "none" },
-      { label: "Under $500/mo", value: "under_500" },
-      { label: "$500 - $2,000/mo", value: "500_2000" },
-      { label: "$2,000 - $5,000/mo", value: "2000_5000" },
-      { label: "$5,000+/mo", value: "5000_plus" },
+      { label: "We ask verbally but forget to follow up", value: "verbal" },
+      { label: "We send manual texts or emails later on", value: "manual" },
+      { label: "We don't really have a strict process yet", value: "none" },
+      { label: "We use an automated system/software", value: "automated" },
     ],
   },
   {
     id: "email",
-    question: "Where should I send your audit?",
+    question: "Where should I text or email your video link?",
     placeholder: "you@company.com",
     type: "email",
-    helper: "Your personalized Loom audit will arrive within 24 hours.",
+    helper: "Your custom, no-BS Loom map breakdown arrives here in 24 hours.",
   },
 ];
 
@@ -89,7 +91,6 @@ export default function AuditCTACard() {
   const isLast = step === STEPS.length - 1;
   const progress = (step / STEPS.length) * 100;
 
-  // Central processing function to execute safe state updates across fields
   const processNextStep = async (valueToCommit: string) => {
     const finalValue = valueToCommit.trim();
 
@@ -138,7 +139,6 @@ export default function AuditCTACard() {
     const nextStepIndex = step + 1;
     setDirection(1);
     setStep(nextStepIndex);
-    // Hydrate field memory space if returning backwards earlier
     setInputValue(updatedFormData[STEPS[nextStepIndex].id] || "");
   };
 
@@ -158,7 +158,6 @@ export default function AuditCTACard() {
   const handleSelect = (selectedValue: string) => {
     setInputValue(selectedValue);
     setError("");
-    // Clean delay to avoid shifting layout views during transition animations
     setTimeout(() => {
       processNextStep(selectedValue);
     }, 250);
@@ -182,44 +181,40 @@ export default function AuditCTACard() {
   };
 
   return (
-    <section
-      className="relative overflow-hidden bg-white py-16 pt-24 mt-5"
-      id="quiz"
-    >
+    <section className="relative overflow-hidden bg-white py-16" id="quiz">
       {/* Background Elements */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-50 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-[300px] w-[300px] rounded-full bg-indigo-50 blur-3xl" />
+        <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-50/70 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-[300px] w-[300px] rounded-full bg-indigo-50/50 blur-3xl" />
       </div>
 
       <div className="mx-auto max-w-5xl px-6">
         {/* Header */}
         <div className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm">
-            <Sparkles className="h-4 w-4" />
-            Complimentary Growth Audit
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-xs font-semibold text-blue-600 shadow-sm">
+            <Sparkles className="h-3.5 w-3.5" />
+            Free Local 3-Pack Video Audit
           </div>
 
-          <h2 className="mt-6 text-4xl font-bold tracking-tight text-black md:text-5xl">
-            Find Out Exactly What&apos;s
-            <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
+          <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
+            See Exactly Why Competitors Are
+            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               {" "}
-              Costing You Leads
+              Taking Your Local Calls
             </span>
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-600">
-            Answer a few quick questions and I&apos;ll personally record a Loom
-            video walkthrough of your website, highlighting what to fix first.
+          <p className="mx-auto mt-4 max-w-2xl text-base text-slate-600">
+            Tell me what you do, and I will personally shoot a raw Loom video analyzing your Google Maps listing, local search footprint, and missing lead leaks.
           </p>
         </div>
 
         {/* Quiz Card */}
-        <div className="mx-auto mt-12 max-w-2xl overflow-hidden rounded-3xl border border-black/5 bg-white shadow-2xl">
+        <div className="mx-auto mt-12 max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
           {/* Progress bar */}
-          <div className="h-1.5 w-full bg-zinc-100">
+          <div className="h-1.5 w-full bg-slate-100">
             <motion.div
-              className="h-full bg-gradient-to-r from-blue-500 to-indigo-500"
+              className="h-full bg-gradient-to-r from-blue-600 to-indigo-600"
               animate={{ width: submitted ? "100%" : `${progress}%` }}
               transition={{ duration: 0.5, ease: "easeOut" }}
             />
@@ -239,45 +234,36 @@ export default function AuditCTACard() {
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 12,
-                      delay: 0.1,
-                    }}
-                    className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100"
+                    transition={{ type: "spring", stiffness: 200, damping: 12, delay: 0.1 }}
+                    className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100"
                   >
-                    <CheckCircle2 className="h-10 w-10 text-emerald-600" />
+                    <CheckCircle2 className="h-8 w-8 text-emerald-600" />
                   </motion.div>
 
-                  <h3 className="text-2xl font-bold text-zinc-900">
-                    You&apos;re on the list!
+                  <h3 className="text-2xl font-bold text-slate-900">
+                    Audit Blueprint Locked In!
                   </h3>
 
-                  <p className="mt-4 max-w-sm text-zinc-500">
-                    I&apos;ll personally review{" "}
-                    <span className="font-semibold text-zinc-800">
-                      {formData.url}
+                  <p className="mt-3 max-w-sm text-sm text-slate-500 leading-relaxed">
+                    I am tracking down{" "}
+                    <span className="font-bold text-slate-800">
+                      {formData.business_name}
                     </span>{" "}
-                    and send your Loom video audit to{" "}
-                    <span className="font-semibold text-zinc-800">
+                    right now. Your custom dashboard overview will hit{" "}
+                    <span className="font-bold text-slate-800">
                       {formData.email}
                     </span>{" "}
-                    within{" "}
-                    <span className="font-semibold text-zinc-800">
-                      24 hours
-                    </span>
-                    .
+                    within the next <span className="font-bold text-slate-800">24 hours</span>.
                   </p>
 
-                  <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-zinc-400">
+                  <div className="mt-8 flex flex-wrap justify-center gap-4 text-xs text-slate-400">
                     <span className="flex items-center gap-1.5">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                      No commitment required
+                      No pitch or high-pressure calls
                     </span>
                     <span className="flex items-center gap-1.5">
                       <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-                      Check your spam folder too
+                      Check inbox & junk folder
                     </span>
                   </div>
                 </motion.div>
@@ -294,27 +280,27 @@ export default function AuditCTACard() {
                 >
                   {/* Step counter */}
                   <div className="mb-6 flex items-center justify-between">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-blue-500">
+                    <p className="text-xs font-bold uppercase tracking-wider text-blue-600">
                       Step {step + 1} of {STEPS.length}
                     </p>
                     {step > 0 && (
                       <button
                         type="button"
                         onClick={handleBack}
-                        className="text-xs font-medium text-zinc-400 transition hover:text-zinc-700"
+                        className="text-xs font-semibold text-slate-400 transition hover:text-slate-700"
                       >
-                        ← Back
+                        ← Go Back
                       </button>
                     )}
                   </div>
 
                   {/* Question */}
-                  <h3 className="text-xl font-bold text-zinc-900 sm:text-2xl">
+                  <h3 className="text-xl font-bold text-slate-900 sm:text-2xl tracking-tight">
                     {current.question}
                   </h3>
 
                   {current.helper && (
-                    <p className="mt-1.5 text-sm text-zinc-400">
+                    <p className="mt-1 text-sm text-slate-400">
                       {current.helper}
                     </p>
                   )}
@@ -322,24 +308,23 @@ export default function AuditCTACard() {
                   {/* Input Elements */}
                   <div className="mt-6">
                     {current.type === "select" ? (
-                      <div className="grid gap-2.5 sm:grid-cols-2">
+                      <div className="grid gap-3 sm:grid-cols-1">
                         {current.options?.map((opt) => (
                           <motion.button
                             key={opt.value}
                             type="button"
                             onClick={() => handleSelect(opt.value)}
-                            
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className={`flex items-center justify-between rounded-xl border-2 px-4 py-3.5 text-left text-sm font-medium transition-all ${
+                            whileHover={{ scale: 1.005 }}
+                            whileTap={{ scale: 0.995 }}
+                            className={`flex items-center justify-between rounded-xl border-2 px-5 py-4 text-left text-sm font-semibold transition-all ${
                               inputValue === opt.value
-                                ? "border-blue-500 bg-blue-50 text-blue-700"
-                                : "border-zinc-200 text-zinc-700 hover:border-blue-300 hover:bg-zinc-50"
+                                ? "border-blue-600 bg-blue-50/50 text-blue-700"
+                                : "border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
                             }`}
                           >
                             <span>{opt.label}</span>
                             {inputValue === opt.value && (
-                              <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-500" />
+                              <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-600" />
                             )}
                           </motion.button>
                         ))}
@@ -355,12 +340,12 @@ export default function AuditCTACard() {
                         }}
                         onKeyDown={handleKeyDown}
                         placeholder={current.placeholder}
-                        className="w-full rounded-xl border-2 border-zinc-200 px-4 py-3.5 text-base text-zinc-900 placeholder:text-zinc-400 transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                        className="w-full rounded-xl border-2 border-slate-200 px-4 py-4 text-base text-slate-900 placeholder:text-slate-400 transition-all focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-50"
                       />
                     )}
 
                     {error && (
-                      <p className="mt-2 text-sm text-red-500">{error}</p>
+                      <p className="mt-2 text-sm font-medium text-red-500">{error}</p>
                     )}
                   </div>
 
@@ -370,20 +355,20 @@ export default function AuditCTACard() {
                       <Button
                         onClick={handleNext}
                         disabled={submitting || !inputValue.trim()}
-                        className="group h-12 w-full rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-base font-semibold text-white shadow-lg transition-all hover:scale-[1.01] disabled:opacity-50"
+                        className="group h-13 w-full rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-base font-bold text-white shadow-md transition-all hover:opacity-95 disabled:opacity-50"
                       >
                         {submitting ? (
-                          <Loader2 className="h-5 w-5 animate-spin" />
+                          <Loader2 className="h-5 w-5 animate-spin mx-auto" />
                         ) : isLast ? (
-                          <>
-                            Send My Audit
-                            <ArrowRight className="ml-2 h-5 w-5" />
-                          </>
+                          <span className="flex items-center justify-center gap-2">
+                            Generate My Custom Audit
+                            <ArrowRight className="h-5 w-5" />
+                          </span>
                         ) : (
-                          <>
+                          <span className="flex items-center justify-center gap-2">
                             Continue
-                            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                          </>
+                            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
+                          </span>
                         )}
                       </Button>
                     </div>
@@ -395,18 +380,18 @@ export default function AuditCTACard() {
         </div>
 
         {/* Trust signals */}
-        <div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-zinc-400">
+        <div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-xs font-semibold text-slate-400">
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            Takes less than 2 minutes
+            Takes 45 seconds
           </span>
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-            Delivered within 24 hours
+            Delivered directly via video
           </span>
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
-            No sales call required
+            No cold sales calls required
           </span>
         </div>
       </div>

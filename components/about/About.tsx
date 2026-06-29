@@ -1,154 +1,127 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Sparkles,
-  TrendingUp,
-  LayoutDashboard,
-  UserRound,
-  Calendar,
-  ArrowRight,
-} from "lucide-react";
-
-import AuditForm from "@/components/AuditForm";
-import { useCalendly } from "@/components/calendly/CalendlyProvider";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { MapPin, Target, Sparkles, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { trackEvent } from "@/lib/gtag";
 
-const pillars = [
+const directDifferentiators = [
   {
-    title: "Hands-On Execution",
-    description:
-      "I personally build and manage the systems — from landing pages and tracking setups to ad campaigns and optimization.",
-    icon: TrendingUp,
+    icon: Target,
+    title: "Contractor Specialty",
+    description: "I don't serve startups or e-commerce brands. I build search engines strictly for local roofers, plumbers, and landscapers who rely on their phone lines.",
   },
   {
-    title: "Data-Driven Decisions",
-    description:
-      "Every change is backed by numbers. I focus on improving what actually impacts leads, calls, and revenue — not vanity metrics.",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Technical + Marketing Hybrid",
-    description:
-      "I bridge development and marketing to create complete growth systems most agencies don't have the technical ability to build.",
     icon: Sparkles,
+    title: "Deliverables, Not Retainers",
+    description: "I focus on deploying technical map infrastructure for a flat fee. You own the optimization asset outright—zero forced, indefinite monthly marketing contracts.",
   },
 ];
 
-export default function About() {
-  const { open } = useCalendly();
-  
-  const handleDirectCall = () => {
-    trackEvent("direct_call_form_started")
-    open();
-  }
-
+export default function AboutMe() {
   return (
-    <>
-      <section
-        id="about"
-        className="relative overflow-hidden bg-white px-6 py-32"
-      >
-        <div className="mx-auto grid max-w-7xl gap-20 lg:grid-cols-2 lg:items-center">
-          {/* LEFT SIDE */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm">
-              <UserRound className="h-4 w-4" />
-              About Me
-            </div>
+    <section id="about" className="relative bg-white py-24 px-6 border-t border-slate-100 overflow-hidden">
+      
+      {/* Subtle Background Accent */}
+      <div className="absolute inset-0 opacity-[0.03] -z-10 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.1),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(147,51,234,0.1),transparent_50%)]" />
 
-            <h2 className="mt-6 text-4xl font-bold tracking-tight text-black md:text-6xl">
-              I build growth systems for local businesses
-            </h2>
-
-            <p className="mt-8 text-lg leading-relaxed text-zinc-600">
-              I help service-based businesses get more leads and customers
-              through paid ads, landing pages, and conversion tracking systems
-              that show what&apos;s actually working.
-            </p>
-
-            <p className="mt-6 text-lg leading-relaxed text-zinc-600">
-              Instead of outsourcing or delegating everything, I stay directly
-              involved in the work — from strategy to implementation — so
-              nothing gets lost between planning and execution.
-            </p>
-
-            {/* STATS */}
-            <div className="mt-12 grid grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-3xl font-bold text-black">+22%</h3>
-                <p className="mt-2 text-sm text-zinc-500">
-                  ROAS improvement (eCom test)
-                </p>
-              </div>
-              <div>
-                <h3 className="text-3xl font-bold text-black">100+</h3>
-                <p className="mt-2 text-sm text-zinc-500">
-                  Users acquired (organic systems)
-                </p>
-              </div>
-            </div>
-
-            {/* CTA — direct book a call fits the personal trust built here */}
-            <div className="mt-12 flex flex-wrap gap-4">
-              <a href="#quiz">
-                <Button onClick={() => trackEvent("go_to_lead_quiz")}className="group h-12 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 text-base font-semibold text-white shadow-lg">
-                  Claim Free Audit
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </a>
-
-              <Button
-                variant="outline"
-                onClick={handleDirectCall}
-                className="h-12 rounded-full px-8"
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-12 lg:grid-cols-12 items-center">
+          
+          {/* ================= LEFT SIDE: ACCOUNTABILITY (TRUST) ================= */}
+          <div className="lg:col-span-5 relative group flex items-center justify-center">
+            
+            {/* Visual Flair Elements */}
+            <motion.div 
+              className="absolute -top-10 -left-10 h-24 w-24 rounded-full bg-blue-50/50 -z-10"
+              animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+              transition={{ duration: 6, repeat: Infinity }}
+            />
+            
+            <div className="relative">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6 }}
+                className="overflow-hidden rounded-full border-4 border-white shadow-2xl"
               >
-                <Calendar className="mr-2 h-4 w-4" />
-                Book Strategy Call
-              </Button>
+                {/* 🎯 ACTION: Replace with your actual trusted headshot asset */}
+                <Image
+                  src="/Gary.jpg" // Placeholder based on your suit headshot
+                  alt="Gary McCart - Founder, Convertify Agency"
+                  width={400} // Tailored for a crisp round frame
+                  height={400}
+                  className="h-72 w-72 md:h-80 md:w-80 rounded-full object-cover object-top grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-102"
+                />
+              </motion.div>
+              
+              {/* Local Accountability Badge */}
+              <div className="absolute -bottom-6 -right-6 md:-bottom-4 md:-right-8 bg-blue-600 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 border-4 border-white">
+                <MapPin className="h-5 w-5 animate-pulse" />
+                <span className="font-bold tracking-tight text-sm">Fuquay-Varina Native</span>
+              </div>
+            </div>
+          </div>
+
+          {/* ================= RIGHT SIDE: MISSION (WHY ME?) ================= */}
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-7"
+          >
+            <div className="max-w-2xl mx-auto lg:mx-0">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-blue-600 bg-blue-50 inline-block px-3 py-1 rounded-full border border-blue-200">
+                The Architect
+              </h2>
+              <p className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                I help contractors stop losing high-paying jobs in their hometown.
+              </p>
+              
+              <p className="mt-6 text-base text-slate-700 leading-relaxed">
+                <strong className="text-slate-900">I am Gary McCart,</strong> and Convertify Agency is not some faceless software startup. I am a local professional based in Fuquay-Varina who understands exactly how difficult it is for local HVAC, roofing, and landscaping crews to dominate their delivery radius on Google Maps without an in-house marketing department.
+              </p>
+              <p className="mt-4 text-base text-slate-700 leading-relaxed">
+                The problem isn&apos;t your field work—it&apos;s your search visibility infrastructure. We eliminate that map invisibility by deploying technical local optimizations for a transparent flat rate. When the phone starts ringing more, you handle the service calls, and we shake hands.
+              </p>
+
+              {/* Unique Contractor Value Differentiators */}
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
+                {directDifferentiators.map((diff, idx) => {
+                  const Icon = diff.icon;
+                  return (
+                    <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 hover:border-slate-200 transition-all duration-300">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="h-9 w-9 rounded-xl bg-white border border-slate-100 text-blue-600 flex items-center justify-center shrink-0 shadow-sm">
+                          <Icon className="h-4.5 w-4.5 stroke-[2.5]" />
+                        </div>
+                        <h4 className="font-bold text-slate-900 text-sm tracking-tight">{diff.title}</h4>
+                      </div>
+                      <p className="text-xs text-slate-600 leading-relaxed">{diff.description}</p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Call to action with direct local affinity */}
+              <div className="mt-12 flex items-center gap-4 border-l-4 border-blue-600 bg-slate-50 rounded-r-xl p-5 shadow-inner">
+                <MapPin className="h-10 w-10 text-blue-600 shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-slate-800">
+                    Ready to see where your listing is leaking local jobs in Apex, Cary, or Fuquay?
+                  </p>
+                  <a href="#quiz" className="inline-flex items-center gap-2 text-blue-600 font-bold text-sm mt-1.5 group">
+                    Claim your raw video audit <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </a>
+                </div>
+              </div>
             </div>
           </motion.div>
 
-          {/* RIGHT SIDE */}
-          <div className="space-y-6">
-            {pillars.map((pillar, index) => {
-              const Icon = pillar.icon;
-              return (
-                <motion.div
-                  key={pillar.title}
-                  initial={{ opacity: 0, x: 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -4 }}
-                  className="group rounded-[28px] border border-black/5 bg-gradient-to-br from-white to-blue-50/40 p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
-                >
-                  <div className="flex items-start gap-5">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-500 shadow-lg">
-                      <Icon className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-semibold text-black">
-                        {pillar.title}
-                      </h3>
-                      <p className="mt-3 leading-relaxed text-zinc-600">
-                        {pillar.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

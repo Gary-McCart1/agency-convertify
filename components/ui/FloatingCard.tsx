@@ -7,53 +7,23 @@ import {
   useSpring,
   MotionValue,
 } from "framer-motion";
-import { BarChart3, Sparkles, TrendingUp } from "lucide-react";
-import Image from "next/image";
+import { TrendingUp } from "lucide-react";
 
-const creativeMockups = [
-  {
-    title: "Trasora Social Platform",
-    category: "Product Design • Growth Architecture",
-    metric: "100+ Users",
-    highlight: "+47% Engagement",
-    color: "from-purple-500 to-pink-500",
-    accentColor: "bg-purple-50 text-purple-600 border-purple-200",
-    icon: Sparkles,
-    src: "/mockups/trasora-mockup.png",
-    link: "https://trasora.com/about",
-    rotation: -3,
-    scale: 1,
-  },
-  {
-    title: "Foamhead E-Commerce",
-    category: "Conversion Optimization",
-    metric: "CRO",
-    highlight: "AOV+",
-    color: "from-cyan-500 to-blue-500",
-    accentColor: "bg-cyan-50 text-cyan-600 border-cyan-200",
-    icon: TrendingUp,
-    src: "/mockups/foamhead.png",
-    link: "https://ecom-storefront-foamhead.vercel.app/",
-    rotation: 2,
-    scale: 0.95,
-  },
-  {
-    title: "Analytics Dashboard",
-    category: "Data Systems • Fullstack",
-    metric: "$24k Tracked",
-    highlight: "Real-Time Data",
-    color: "from-emerald-500 to-teal-500",
-    accentColor: "bg-emerald-50 text-emerald-600 border-emerald-200",
-    icon: BarChart3,
-    src: "/mockups/dashboard.png",
-    link: "https://ecom-dashboard-pi.vercel.app/",
-    rotation: -1,
-    scale: 0.98,
-  },
-];
-
+// Flexible interface structure to read your local programmatic content renders
 interface FloatingCardProps {
-  mockup: (typeof creativeMockups)[number];
+  mockup: {
+    title: string;
+    category: string;
+    metric: string;
+    highlight: string;
+    color: string;
+    accentColor: string;
+    icon: React.ComponentType<{ className?: string }>;
+    link: string;
+    rotation: number;
+    scale: number;
+    renderContent?: () => React.ReactNode;
+  };
   link: string;
   index: number;
   hoveredIndex: number | null;
@@ -72,7 +42,6 @@ function FloatingCard({
   mouseY,
 }: FloatingCardProps) {
   const Icon = mockup.icon;
-
   const isHovered = hoveredIndex === index;
 
   const baseY = index * 100 - 100;
@@ -98,7 +67,8 @@ function FloatingCard({
   const springX = useSpring(transformedX, springConfig);
   const springY = useSpring(transformedY, springConfig);
 
-  const calculatedZIndex = isHovered ? 100 : creativeMockups.length - index;
+  // Updated to dynamically reflect the 3 item limit explicitly
+  const calculatedZIndex = isHovered ? 100 : 3 - index;
 
   return (
     <motion.div
@@ -124,77 +94,69 @@ function FloatingCard({
       }}
       onHoverStart={() => setHoveredIndex(index)}
       onHoverEnd={() => setHoveredIndex(null)}
-      onClick={() => window.open(link, "_blank")}
+      onClick={() => window.open(link, "_self")}
       role="button"
       tabIndex={0}
       className="
         absolute left-1/2 top-1/2
         w-112.5 -translate-x-1/2 -translate-y-1/2
-        cursor-pointer select-none
+        cursor-pointer select-none outline-none
       "
     >
       {/* Card Wrapper */}
       <div
         className="
           group relative overflow-hidden
-          rounded-3xl border-2 border-white bg-white
+          rounded-3xl border-2 border-slate-100 bg-white
           shadow-2xl transition-shadow duration-300
-          hover:shadow-[0_25px_70px_-20px_rgba(0,0,0,0.3)]
+          hover:shadow-[0_25px_70px_-20px_rgba(0,0,0,0.2)]
         "
       >
         {/* Glow */}
         <div
           className={`
             absolute -inset-1 rounded-3xl
-            bg-linear-to-r ${mockup.color}
+            bg-gradient-to-r ${mockup.color}
             opacity-0 blur-2xl transition-opacity duration-300
             group-hover:opacity-20
           `}
         />
 
         <div className="relative">
-          {/* Image */}
-          <div className="relative overflow-hidden rounded-t-3xl bg-linear-to-br from-zinc-50 to-zinc-100">
-            <div className="relative aspect-17/9 w-full">
-              <Image
-                src={mockup.src}
-                alt={mockup.title}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                priority={index === 0}
-                sizes="450px"
-              />
+          {/* Dynamic Content Core replaces the original static Next Image tag */}
+          <div className="relative overflow-hidden rounded-t-3xl bg-gradient-to-br from-slate-50 to-slate-100 aspect-17/9 w-full flex flex-col justify-between">
+            
+            {mockup.renderContent && mockup.renderContent()}
 
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            {/* Overlay Gradient on Hover */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
 
-              {/* Hover Tag */}
-              <motion.div
-                className="
-                  absolute bottom-4 left-4
-                  flex items-center gap-2
-                  rounded-full bg-white/95 px-3 py-1.5
-                  shadow-md backdrop-blur-sm
-                "
-                initial={{ y: 15, opacity: 0 }}
-                animate={{
-                  y: isHovered ? 0 : 15,
-                  opacity: isHovered ? 1 : 0,
-                }}
-                transition={{
-                  duration: 0.2,
-                  ease: "easeOut",
-                }}
-              >
-                <Icon className="h-3.5 w-3.5 text-blue-600" />
-                <span className="text-xs text-zinc-800">
-                  {mockup.highlight}
-                </span>
-              </motion.div>
-            </div>
+            {/* Hover Tag */}
+            <motion.div
+              className="
+                absolute bottom-4 left-4
+                flex items-center gap-2
+                rounded-full bg-white/95 px-3 py-1.5
+                shadow-md backdrop-blur-sm pointer-events-none
+              "
+              initial={{ y: 15, opacity: 0 }}
+              animate={{
+                y: isHovered ? 0 : 15,
+                opacity: isHovered ? 1 : 0,
+              }}
+              transition={{
+                duration: 0.2,
+                ease: "easeOut",
+              }}
+            >
+              <Icon className="h-3.5 w-3.5 text-blue-600" />
+              <span className="text-[11px] font-bold text-slate-800">
+                {mockup.highlight}
+              </span>
+            </motion.div>
           </div>
 
-          {/* Footer */}
+          {/* Card Meta Details Footer */}
           <div className="relative bg-white p-5">
             <div
               className={`
@@ -205,42 +167,42 @@ function FloatingCard({
 
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                   {mockup.category}
                 </p>
 
-                <h4 className="mt-1 text-lg font-bold leading-snug text-zinc-900">
+                <h4 className="mt-1 text-base font-extrabold tracking-tight text-slate-900">
                   {mockup.title}
                 </h4>
               </div>
 
               <div
                 className={`
-                  shrink-0 rounded-2xl border px-3 py-1.5
+                  shrink-0 rounded-xl border px-3 py-1.5 self-start
                   ${mockup.accentColor}
                   text-center font-bold
                 `}
               >
-                <span className="text-sm tracking-tight">
+                <span className="text-xs tracking-tight">
                   {mockup.metric}
                 </span>
               </div>
             </div>
 
-            {/* Footer Row */}
-            <div className="mt-4 flex items-center gap-4 border-t border-zinc-100 pt-3">
+            {/* Footer Status Indicators */}
+            <div className="mt-4 flex items-center gap-4 border-t border-slate-100 pt-3">
               <div className="flex items-center gap-1.5">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                 </span>
-                <span className="text-xs font-medium text-zinc-500">Live</span>
+                <span className="text-xs font-bold text-slate-500">Live Infrastructure</span>
               </div>
 
               <div className="flex items-center gap-1.5">
                 <TrendingUp className="h-3 w-3 text-blue-500" />
-                <span className="text-xs font-medium text-zinc-500">
-                  Conversion Tuned
+                <span className="text-xs font-bold text-slate-500">
+                  Map Pack Optimized
                 </span>
               </div>
             </div>
@@ -248,7 +210,7 @@ function FloatingCard({
         </div>
       </div>
 
-      {/* Floating Badge */}
+      {/* Outer Floating Corner Badge */}
       <motion.div
         className={`
           absolute -right-2 -top-2 hidden rounded-full
