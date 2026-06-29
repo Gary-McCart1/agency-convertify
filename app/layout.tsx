@@ -51,7 +51,7 @@ export default function RootLayout({
         <Script
           src="https://widgets.leadconnectorhq.com/loader.js"
           data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
-          data-widget-id="YOUR_ACTUAL_WIDGET_ID_FROM_GHL" 
+          data-widget-id="6a4291f055ef5e641360fc22" 
           strategy="afterInteractive"
         />
 
